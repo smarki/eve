@@ -150,10 +150,15 @@ public class ResultMonitorFactory implements ResultMonitorFactoryInterface {
 	}
 	
 	@Access(AccessType.SELF)
-	public final void doPoll(@Name("monitorId") String monitorId)
+	public final void doPoll(@Name("monitorId") String monitorId, @Name("pollId") String pollId)
 			throws JSONRPCException, IOException {
 		ResultMonitor monitor = getMonitorById(monitorId);
+		
 		if (monitor != null) {
+			// Extra check to remove scheduled poll
+			Poll poll = monitor.getPoll(pollId);
+			poll.stop(myAgent);
+			
 			if (monitor.getUrl() == null || monitor.getMethod() == null){
 				LOG.warning("Monitor data invalid:"+monitor);
 			}
@@ -170,6 +175,8 @@ public class ResultMonitorFactory implements ResultMonitorFactoryInterface {
 			if (monitor.hasCache()) {
 				monitor.getCache().store(result);
 			}
+			
+			poll.start(monitor, myAgent);
 		}
 	}
 	

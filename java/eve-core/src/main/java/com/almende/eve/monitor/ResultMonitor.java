@@ -129,7 +129,7 @@ public class ResultMonitor implements Serializable {
 	public void cancel() {
 		LOG.info("Canceling monitor:"+this.id);
 		for (Poll poll : getPolls()) {
-			poll.cancel(this, myAgent);
+			poll.stop(myAgent);
 		}
 		for (Push push : getPushes()) {
 			try {
@@ -207,6 +207,15 @@ public class ResultMonitor implements Serializable {
 	
 	public void setPolls(List<Poll> polls) {
 		this.polls = polls;
+	}
+	
+	public Poll getPoll(String id) {
+		for(Poll poll : polls) {
+			if(poll.getId().equals(id))
+				return poll;
+		}
+		
+		return null;
 	}
 	
 	public List<Push> getPushes() {

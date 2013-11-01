@@ -25,7 +25,7 @@ public interface ResultMonitorFactoryInterface {
 	 * @throws IOException
 	 * @throws Exception
 	 */
-	void doPoll(@Name("monitorId") String monitorId) throws JSONRPCException,
+	void doPoll(@Name("monitorId") String monitorId, @Name("pollId") String pollId) throws JSONRPCException,
 			IOException;
 	
 	/**
