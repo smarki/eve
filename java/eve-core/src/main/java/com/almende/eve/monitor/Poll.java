@@ -47,7 +47,7 @@ public class Poll implements ResultMonitorConfigType {
 		JSONRequest request = new JSONRequest("monitor.doPoll", params);
 		
 		taskId = agent.getScheduler()
-				.createTask(request, interval, true, false);
+				.createTask(request, interval, false, false);
 		
 		LOG.info("Poll task created:"+monitor.getUrl());
 		monitor.getPolls().add(this);
